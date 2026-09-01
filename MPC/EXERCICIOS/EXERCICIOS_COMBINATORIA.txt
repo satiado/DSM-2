@@ -1,0 +1,7 @@
+1. Quantas palavras diferentes podem ser formadas usando todas as letras da palavra LIVRO?
+
+2. Em uma sala com 15 estudantes, serão escolhidos 4 para representar a turma. Quantas escolhas diferentes são possíveis?
+
+3. Uma escola possui 12 alunos candidatos a presidente, vice-presidente e secretário do grêmio. De quantas maneiras esses três cargos podem ser preenchidos?
+
+4. Quantas formas diferentes podemos organizar as letras da palavra ABACAXI?
