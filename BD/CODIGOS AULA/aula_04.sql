@@ -184,3 +184,120 @@ select id_categoria, round(avg(preco),2) as "Preço médio" from produto group b
 select produto.id_categoria as "ID",categoria.nome as "Categoria", round(avg(preco),2) as "Preço médio" from produto 
 inner join categoria on categoria.id_categoria= produto.id_categoria
  group by produto.id_categoria order by "ID";
+ 
+ /*Having - Quais categorias possuem preço médio maior que R$500,00*/
+select id_categoria, round (avg(preco),2) as "Preço Médio" from produto
+group by id_categoria having avg(preco) > 500;
+
+/*Inner Join*/
+select p.nome as "Produto", c.nome as "Categoria", p.preco as "Valor" from produto p 
+join categoria c on p.id_categoria = c.id_categoria;
+#ou assim mais reduzido a query
+select p.nome as "Produto", c.nome as "Categoria", p.preco as "Valor" from produto p
+join categoria c using (id_categoria);
+
+/*Group by + inner join - Quantos produtos existem em cada categoria*/
+select c.nome as "Categoria", count(p.id_produto) as "Quantidade" from categoria c
+join produto p on c.id_categoria = p.id_categoria group by c.nome;
+
+/*Left join*/
+select c.nome as "Categoria", p.nome as "Produto"
+from categoria c left join produto p
+on c.id_categoria = p.id_categoria;
+
+/*Quais clientes estçao cadastrados, mas nunca compraram*/
+select c.nome as "Cliente" from cliente c left join pedido p
+on c.id_cliente = p.id_cliente where p.id_pedido is NULL;
+
+/*Quem comprou e em qual pedido comprou?*/
+select c.nome as "Cliente", p.id_pedido, p.data_pedido from  cliente c 
+ join pedido p on c.id_cliente = p.id_cliente order by c.nome;
+ 
+ #Subconsulta
+ select nome, preco from produto where preco > (select avg(preco) from produto);
+ 
+ #Nesse exemplo, a subconsulta calcula o preço médio e a consulta externa retorna os produtos acima dessa média
+ 
+ #Subconsulta com lista e existência
+ #Quando a subconsulta retorna vários valores, usam-se os operadores IN, EXISTS, ANY e ALL. O IN verifica se um valor perence a um conjunto retornado
+ #O EXISTS testa apenas se a subconsulta produz alguma linha, sendo bastante eficiente para verificar existência. O exemplo busca clientes que fizeram ao menos unm pedido
+ 
+ select nome from cliente c where exists (select 1 from pedido p where p.id_cliente = c.id_cliente);
+ 
+ #Subconsulta no from e no select
+ #A subconsulta também pode aparecer na cláusula FROM, funcionando como uma tabela temporária, ou na linha de tabelas do SELECT,
+ #retornando um valor único por linha. O exemplo a seguir mostra cada categoria ao lado da quantidade de produtos, calculada por uma subconsulta no SELECT:
+ 
+ select c.nome,(select count(*) from produto p where p.id_categoria = c.id_categoria) as "Quantidade de Produtos" from categoria c;
+ 
+ #Organizando com CTEs e combinando com Union
+ #Consultas longas tornam se dificeis de ler quando muitas subconsultas se aninham.
+ #A Commom Table Expression (CTE), introduzida pela cláusula WITH, dá o nome a um resultado intermediário e melhora a clareza
+ #Ela é especialmente útil quando o mesmo subresultado é referenciado mais de uma vez.
+ with faturamento_cliente as (
+ select p.id_cliente, sum(ip.quantidade*ip.preco_unitario) as "Total" from pedido p
+ join item_pedido ip on p.id_pedido = ip.id_pedido
+ group by p.id_cliente
+ )
+ select c.nome, f.total from faturamento_cliente f 
+ join cliente c on c.id_cliente = f.id_cliente
+ where f.total > 500;
+ 
+ #Funções Internas
+ /*Os SGDBs oferecem um conjunto amplo de funções internas que processam valores durante a consulta. As funções de texto manipulam 
+ cadeias de caracteres. CONCAT junta strings, UPPER e LOWER alteram a caixa, SUBSTRING extrai um trecho, LENGHT mede o comprimento 
+ e TRIM remove espaços nas extremidades. */
+ 
+ select concat(nome,'(', cidade, ')')as "Identificação",
+ upper(cidade) as "Cidade em Maiusculo" from cliente;
+ 
+ #Funções internas de data
+ /*As funções de data permitem extrair e calcular informações temporais
+ NOW retorna o instante atual, DATEDIFF calcular a diferença entre dataas e funções de formatação ajustam a exibição.
+ O exemplo apura quantos dias cada cliente esta cadastrado*/
+ 
+ select nome, datediff(current_date,data_cadastro) as "Dias de cadastro" from cliente;
+ 
+ #Funções numéricas e condicionais 
+ /*As funçõe snum,ériacas arredondam e ajustam valores: 
+ ROUND arredonda, FLOOR e CEIL, aproximan para baixo e para cima.alterJá as funções condicionais
+ decidem o valor de saída conforme uma regra. O comando CASE funciona como uma estrutura de decisão dentro da consulta
+ e COALESCE substitui valores valores nulos por uma alternativa. */
+ 
+ select nome, preco,
+	case
+		when preco>= 500 then "Premium"
+        when preco >= 100 then "Intermediário"
+        else "Econôminco"
+	end as "Faixa",
+    coalesce(id_categoria,0) as "Categoria segura"
+from produto;
+
+#Visões - o que são visões?
+/*Uma visão, ou view é uma consulta armazenada que se comporta como uma tabela virtual. Ela não guarda dados 
+próprios, mas sim uma definição de um SELECT que é execultado sempre que uma visão é consultada.
+Silberschatz e colaboradores destacam qua as visõs cumprem dois papéis centrais: simplificar consultas complexas e 
+controlar o que cada usuário pode enxergar */
+
+create view vw_produtos_categorias as 
+select p.id_produto, p.nome as "Produto",
+p.preco, c.nome as"Categoria" from produto p
+JOIN categoria c ON p.id_categoria = c.id_categoria;
+
+/*Depois de criada, a visão é consultada com se fosse uma tabela comum,
+o que dispensa repetir a junção a cada uso:*/
+SELECT * FROM vw_produtos_categorias WHERE preco > 200;
+
+#Visões como camada de segurança 
+/*Além de simplificar, as visões protegem os dados.
+É possivel expor apenas algumas colunas de uma tabela, 
+escondendo informações sensíveis. Uma visão que mostra
+clientes sem revelar o e-mail, por exemplo, permite que
+relatórios sejam gerados sem dar acesso ao dado privado.
+A cláusula WITH CHECK OPTION, por sua vez, impede que atualizações
+feitas através da visão violem a condições que a define*/ 
+
+create view vw_cliente_publico as
+select id_cliente, nome, cidade from cliente;
+
+select * from vw_cliente_publico;
