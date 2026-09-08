@@ -301,3 +301,106 @@ create view vw_cliente_publico as
 select id_cliente, nome, cidade from cliente;
 
 select * from vw_cliente_publico;
+
+#procedimentos (procuderes)
+/*Um procedimento recebe  parâmetros, que podem ser de entradas (IN), de saída (OUT) ou ambos (INOUT)
+Como o corpo do procedimento copntém vários comandos separados de ponto e vírgula, ´preciso redefinir 
+o delimitador temporariamente com o DELIMITER para que o SGDB entenda onde o procedimento termina*/
+
+delimiter $$
+create procedure cadastrar_cliente(
+in p_nome varchar(100),
+in p_email varchar(150),
+in p_cidade varchar(60)
+)
+begin
+	insert into cliente (nome, email, cidade) values
+    (p_nome, p_email,p_cidade);
+    end $$
+    delimiter ;
+    
+alter table cliente add column email varchar(150);
+    
+/* A chamada do procedimento é feita com o CALL, informando os valores dos parâmetros */
+call cadastrar_cliente('Bruno Lima e Silva','bruno.ls@email.com','Cajati');
+
+select * from cliente;
+
+#Controle de Fluxo e Variaveis
+/*Dentro de um procedimento é possível tomar decisões e repetir comandos.
+As estruturas IF e CASE controlam o fluxo conforme condições, e os laços WHILE, LOOP e REPEAT
+executam blocos repetidamente. Variáveis locais, declaradas com DECLARE, guardam valores intermediários.
+O exemplo aplçica um desconto diferente conforme o valor do pedido:*/
+
+Delimiter $$
+create procedure calcular_desconto (
+in p_valor decimal(10,2),
+out p_desconto decimal(10,2)
+)
+begin
+	if p_valor >= 1000 then
+		set p_desconto = p_valor * 0.10;
+	elseif p_valor >= 500 then
+		set p_desconto = p_valor * 0.5;
+	else
+		set p_desconto = 0;
+	end if;
+    
+end $$
+delimiter ;
+
+#chamar a procedure calcular desconto
+/*Sua procedure já calcula correetamnete o desconto. Como você definiu p_desconto coo parâmetro OUT,
+para visualizar  o valor retornado você precisa chamar a procedure usando uma variável e depois fazer
+um SELECT.*/
+call calcular_desconto(1200,@desconto);
+#Mostrar desconto
+select @desconto as valor_desconto;
+
+#Tratamento de erros 
+/*Procedimentos rrrobustos precisam lidar com situações inesperadas,
+como tentar inserir um e-mail já existente. O comando DECLARE HANDLER
+define o que fazer quando um erro ocorre, o SIGNAL SQLSTATE permite gerar erros personalizados.
+Isso evita evita que o procedimento falhe de forma silenciosa ou deixe dados pela metade*/
+Delimiter $$
+create procedure baixar_estoque (
+	in p_produto int, 
+    in p_qtd int
+)
+begin 
+	declare v_estoque int;
+    select estoque into v_estoque from produto where id_produto = p_produto;
+    if v_estoque <p_qtd then
+		signal sqlstate '45000'
+        set message_text = 'Estoque Insuficiente';
+	else
+		update produto set estoque = estoque - p_qtd
+        where id_produto = p_produto;
+	end if;
+end $$
+delimiter ;
+
+select * from produto;
+call baixar_estoque(1,9);
+
+#Função armazenada
+/*A função armazenada é parente próximo do procedimento,
+mas com uma diferença essencial: ela sempre retorna um único valor 
+e pode ser usada dentro de uma consulta, como se fosse uma função interna.
+Procedimentos executam ações ; funções calculam e retornam resultados.*/
+
+delimiter $$
+create function total_pedido (p_pedido int) returns decimal(10,2)
+deterministic #é uma característica usada em funções armazenadas do MYSQL
+			  # para indicar que, recebendo os mesmos valors de entrada,
+              #a função sempre retornará o mesmo resultado.
+
+begin 
+	declare v_total decimal(10,2);
+	select sum(quantidade * preco_unitario) into v_total
+    from item_pedido where id_pedido = p_pedido;
+    return coalesce(v_total, 0);
+end $$
+delimiter ;
+
+select id_pedido, total_pedido(id_pedido) as valor from pedido;
