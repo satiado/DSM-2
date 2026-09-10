@@ -2531,9 +2531,12 @@ select id_pedido, data_pedido, id_cliente, id_loja from pedido where data_pedido
 and id_loja=1 or id_loja=2 or id_loja=3 
 order by data_pedido desc;
 
-/*Apresente um resumo geral do cadastro de produtos contendo: quantidade total de produtos, preço médio, 
+/*5 Apresente um resumo geral do cadastro de produtos contendo: quantidade total de produtos, preço médio, 
 menor preço e maior preço. Use aliases claros para cada resultado.*/
 select count(*) as "Total produtos",
 round(avg(preco),2) as "Preço médio",
 min(preco) as "Menor preço",
 max(preco) as "Maior preço" from produto; 
+
+/*6 Calcule o valor financeiro estimado do estoque atual da rede, considerando preco x estoque para cada produto e somando o resultado de todos eles.*/
+select sum(preco * estoque) as "Total estoque" from produto;
