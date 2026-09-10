@@ -404,3 +404,59 @@ end $$
 delimiter ;
 
 select id_pedido, total_pedido(id_pedido) as valor from pedido;
+
+#Gatilhos (Triggers)
+/*O que é um gatilho
+Um gatilho, ou trigger,é um bloco de código que o SGDB executa automaticamente
+qunado ocorre um evento em uma tabela, como uma inserção, uma atualização ou uma inclusão.
+Diferente do procedimento, que precisa ser chamado, o gatilho dispara sozinho.
+Isso o torna ideal para tarefas que devem acontecer sem depender de aplicação,
+como registrar um histórico ou validar uma regra.*/
+
+delimiter $$
+create trigger tg_valida_preco
+before insert on produto
+for each row
+begin
+	if NEW.preco <0 then
+    signal SQLSTATE '45000'
+    set message_text = "Preço não pode ser negativo";
+    end if;
+end$$
+delimiter ;
+
+INSERT INTO produto (nome, preco, estoque, id_categoria) VALUES
+("Apagador Quadro Branco", "5.00", 15, 2);
+
+select * from produto;
+
+/*Os gatilhos são classificados pelo momento e pelo evento.
+Quanto ao momento, podem ser BEFORE, executando antes da operação
+ou AFTER, executando depois. Quanto ao evento, respondem ao INSERT, 
+UPDATE, ou DELETE. Dentro do gatilho, as referências NEW e OLD dão 
+acesso aos valores novos e antigos da linha afetada. */
+
+#Criar tabela de Log para auditoria
+create table log_preco(
+id_log int primary key auto_increment,
+id_produto int,
+preco_antigo decimal(10,2),
+preco_novo decimal(10,2),
+alterado_em datetime default current_timestamp
+);
+
+delimiter $$
+create trigger tg_log_preco
+after update on produto
+for each row 
+begin 
+	if old.preco <> new.preco then
+		insert into log_preco(id_produto,preco_antigo,preco_novo)
+        values(old.id_produto,old.preco,new.preco);
+        end if;
+end $$
+delimiter ;
+
+select * from produto;
+update produto set preco = 10.00 where id_produto=21;
+select * from log_preco;
