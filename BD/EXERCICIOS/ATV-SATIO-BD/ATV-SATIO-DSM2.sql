@@ -2540,3 +2540,33 @@ max(preco) as "Maior preço" from produto;
 
 /*6 Calcule o valor financeiro estimado do estoque atual da rede, considerando preco x estoque para cada produto e somando o resultado de todos eles.*/
 select sum(preco * estoque) as "Total estoque" from produto;
+
+/*7 Mostre, para cada categoria, a quantidade de produtos cadastrados, o preço médio, o menor preço e o maior preço. Ordene da maior para a menor média de preço.*/
+select id_categoria as "ID",
+count(id_categoria) as "Total produtos",
+round(avg(preco),2) as "Preço médio" ,
+min(preco) as "Menor preço" ,
+max(preco) as "Maior preço" from produto group by (id_categoria) order by avg(preco) desc ;
+
+/*8 Exiba somente as categorias que possuam pelo menos 8 produtos cadastrados e preço médio superior a R$ 10,00.*/
+select id_categoria as "Categoria" from produto 
+group by id_categoria 
+having count(*) >=8 and round(avg(preco),2) >= 10.00;
+
+/*9 Calcule quantos pedidos foram registrados por loja e mostre apenas as unidades que tenham mais de 70 pedidos no período disponível na base*/
+select id_loja as "loja", count(id_pedido) as "Total pedidos" from pedido
+group by id_loja
+having count(id_pedido) >=70;
+
+/*10 Apresente a quantidade de clientes cadastrados por cidade e mostre somente cidades com mais de 15 clientes. Ordene da maior para a menor quantidade.*/
+select cidade as "Cidade", count(id_cliente) as "Quant clientes" from cliente
+group by cidade
+having count(id_cliente) >= 15
+order by "Quant clintes" desc;
+
+/*11 Liste todos os produtos com o nome de sua categoria. Exiba produto, categoria, preço e estoque, ordenando primeiro pela categoria e depois pelo produto.*/
+select c.nome "Categoria", p.nome as "Produto", p.preco as "Preço", p.estoque as "Estoque" from produto p 
+inner join categoria c on p.id_categoria = c.id_categoria
+order by c.nome asc, p.nome asc; 
+
+/*12 Mostre todos os pedidos com nome do cliente, data da compra, nome da loja e cidade da unidade. Ordene da venda mais recente para a mais antiga.*/
