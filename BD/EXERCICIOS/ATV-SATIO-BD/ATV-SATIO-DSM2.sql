@@ -2570,3 +2570,33 @@ inner join categoria c on p.id_categoria = c.id_categoria
 order by c.nome asc, p.nome asc; 
 
 /*12 Mostre todos os pedidos com nome do cliente, data da compra, nome da loja e cidade da unidade. Ordene da venda mais recente para a mais antiga.*/
+select c.nome as "Cliente", p.data_pedido as "Data", l.nome as "Loja", l.cidade as "Cidade" from pedido p 
+inner join cliente c inner join loja l on c.id_cliente = p.id_cliente order by p.data_pedido asc;
+
+/*13 Identifique clientes cadastrados que nunca fizeram nenhum pedido. A saída deve mostrar o código do cliente, nome, cidade e data de cadastro*/
+select c.id_cliente as "ID", c.nome as "Cliente", c.cidade as "Cidade", c.data_cadastro as "Cadastro" from cliente c 
+left join pedido p on p.id_cliente = c.id_cliente where p.id_pedido is NULL;
+
+/*14 Identifique produtos cadastrados que nunca apareceram em item_pedido. Exiba produto, categoria, preço e estoque atual.*/
+select p.nome as "Produto", c.id_categoria as "Categoria", p.preco as "Preço", p.estoque as "Estoque" from produto p 
+inner join categoria c  on c.id_categoria = p.id_categoria left join item_pedido i on p.id_produto = i.id_produto where i.id_produto is NULL;
+
+/*15 Mostre todas as categorias, inclusive as que eventualmente não tenham produtos, informando o nome da categoria e o nome do produto quando houver correspondência.*/
+select c.nome as "Categoria", p.nome as "Produto" from categoria c 
+left join produto p on c.id_categoria = p.id_categoria; 
+
+/*16 Faça a mesma análise anterior partindo da tabela produto e utilizando RIGHT JOIN 
+para preservar todas as categorias no resultado*/
+select c.nome as "Categoria", p.nome as "Produto" from produto p 
+right join categoria c on c.id_categoria = p.id_categoria; 
+
+/*17 Monte um relatório detalhado de vendas exibindo: pedido, data, cliente, loja, produto, categoria, quantidade, preço unitário da venda e 
+valor do item (quantidade x preço_unitario). Ordene por pedido e produto.*/
+select p.id_pedido as "Pedido",p.data_pedido as "Data", c.nome as "Cliente", l.nome as "Loja", pp.nome as "Produto", cc.nome as "Categoria", i.quantidade as "Quantidade",
+pp.preco as "Preço", i.quantidade * pp.preco as "Valor item" from pedido p 
+inner join cliente c on c.id_cliente = p.id_cliente
+inner join loja l on l.id_loja = p.id_loja
+inner join item_pedido i on i.id_pedido = p.id_pedido
+inner join produto pp on  pp.id_produto = i.id_produto
+inner join categoria cc on cc.id_categoria = pp.id_categoria
+order by p.id_pedido, pp.id_produto;
