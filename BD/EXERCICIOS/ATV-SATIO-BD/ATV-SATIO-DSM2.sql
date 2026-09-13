@@ -2600,3 +2600,55 @@ inner join item_pedido i on i.id_pedido = p.id_pedido
 inner join produto pp on  pp.id_produto = i.id_produto
 inner join categoria cc on cc.id_categoria = pp.id_categoria
 order by p.id_pedido, pp.id_produto;
+
+/*18 Calcule o faturamento total de cada loja. Exiba nome da loja, cidade e faturamento, do maior para o menor valor.*/
+select l.nome as "Loja", l.cidade as "Cidade", sum(i.quantidade * i.preco_unitario) as "Faturamento" from loja l 
+inner join pedido p on p.id_loja = l.id_loja
+inner join item_pedido i on i.id_pedido = p.id_pedido
+group by l.id_loja, l.nome, l.cidade
+order by sum(i.quantidade * i.preco_unitario) desc;
+
+/*19 Calcule o faturamento total por categoria considerando as quantidades vendidas e o preço praticado em item_pedido. 
+Exiba somente categorias com faturamento superior a R$ 2.000,00.*/
+select c.nome as "Categoria", sum(i.quantidade * i.preco_unitario) as "Faturamento" from categoria c
+inner join produto p on p.id_categoria = c.id_categoria
+inner join item_pedido i on i.id_produto = p.id_produto
+group by c.id_categoria, c.nome
+having sum(i.quantidade * i.preco_unitario)>=2000;
+
+/*20 Mostre os 10 produtos com maior quantidade total vendida. Exiba produto, categoria e quantidade vendida, do maior para o menor resultado.*/
+select p.nome as "Produto", c.nome as "Categoria", sum(i.quantidade) as "Quantidade" from produto p 
+inner join categoria c on c.id_categoria = p.id_categoria
+inner join item_pedido i on i.id_produto = p.id_produto
+group by p.nome, c.nome, p.id_produto 
+order by sum(i.quantidade) desc
+limit 10;
+
+/*21 Mostre os 10 produtos que mais geraram faturamento. O resultado deve considerar quantidade x preço_unitario e não o preço atual do cadastro do produto*/
+select p.nome as "Produto", sum(i.quantidade * i.preco_unitario) as "Faturamento" from produto p 
+inner join item_pedido i on i.id_produto = p.id_produto
+group by i.quantidade, i.id_produto
+limit 10;
+
+/*22 Calcule quanto cada cliente já gastou na rede. Exiba cliente, cidade e total gasto, 
+mostrando apenas clientes com valor acumulado superior a R$ 250,00. Ordene do maior para o menor total*/
+select c.nome as "Cliente", c.cidade as "Cidade", sum(i.quantidade * i.preco_unitario) as "Total" from cliente c
+inner join pedido p on p.id_cliente = c.id_cliente
+inner join item_pedido i on i.id_pedido = p.id_pedido
+group by i.quantidade, i.preco_unitario, c.nome,c.cidade
+having sum(i.quantidade * i.preco_unitario) >=250
+order by sum(i.quantidade * i.preco_unitario) desc;
+
+/*23 Apresente, para cada loja, o valor médio dos itens vendidos, a menor venda unitária registrada e 
+a maior venda unitária registrada, considerando o campo preco_unitario de item_pedido.*/
+select l.nome as "Loja", round(avg( i.preco_unitario * i.quantidade),2) as "Média", min(i.preco_unitario) as "Mínimo", max(i.preco_unitario) as "Máximo" from loja l
+inner join pedido p on p.id_loja = l.id_loja
+inner join item_pedido i on i.id_pedido = p.id_pedido
+group by l.nome,l.id_loja;
+
+/*24 Calcule a quantidade total de unidades vendidas por categoria e mostre apenas categorias que ultrapassem 100 unidades vendidas.*/
+select c.nome as "Categoria", sum( i.quantidade) as "Quantidade" from categoria c 
+inner join produto p on p.id_categoria = c.id_categoria
+join item_pedido i on i.id_produto = p.id_produto
+group by c.nome, c.id_categoria
+having sum(i.quantidade)>=100;
