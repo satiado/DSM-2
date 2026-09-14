@@ -3,11 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.aula_02_4_exe_04;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author fatec-dsm2
+ * @author satio daniel
  */
+
 public class Temperatura {
     private double celsius;
     private double fahrenheit;
@@ -28,6 +30,14 @@ public class Temperatura {
         this.fahrenheit = fahrenheit;
     }
     
+    public void calcularTempCelsius(double F){
+        setCelsius((F-32)*(5/9.0));
+       JOptionPane.showMessageDialog(null, "Temperatura: "+getCelsius());
+    }
     
+    public void calcularTempFahrenheit(double C){
+        setFahrenheit(C*1.8+32);
+        JOptionPane.showMessageDialog(null, "Temperatura: "+getFahrenheit());
+    }
     
 }
