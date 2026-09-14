@@ -2652,3 +2652,68 @@ inner join produto p on p.id_categoria = c.id_categoria
 join item_pedido i on i.id_produto = p.id_produto
 group by c.nome, c.id_categoria
 having sum(i.quantidade)>=100;
+
+/*25 Descubra quais lojas venderam mais de 250 unidades de produtos somando as quantidades de seus itens de pedido. Exiba loja, cidade e quantidade total vendida*/
+select l.nome as "Loja", l.cidade as "Cidade", sum(i.quantidade) as "total" from loja l
+inner join pedido p on p.id_loja = l.id_loja
+inner join item_pedido i on i.id_pedido = p.id_pedido
+group by l.nome,l.id_loja
+having sum(i.quantidade) >=250;
+
+/*26 Produza um ranking com as cinco cidades de clientes que mais geraram faturamento para a rede. 
+A análise deve considerar todos os pedidos feitos por clientes de cada cidade.*/
+select c.cidade as "Cidade", sum(i.quantidade) as "Pedidos", sum(i.quantidade * i.preco_unitario) as "Faturamento" from cliente c 
+inner join pedido p on p.id_cliente = c.id_cliente
+inner join item_pedido i on i.id_pedido = p.id_pedido
+group by c.cidade,i.quantidade
+order by sum(i.quantidade * i.preco_unitario) desc
+limit 5;
+
+/*27 Mostre, por loja e por categoria, o faturamento total obtido. Exiba somente combinações loja/categoria cujo faturamento ultrapasse R$ 500,00 e ordene 
+primeiro pelo nome da loja e depois pelo maior faturamento.*/
+select l.nome as "Loja", c.nome as "Categoria", sum(i.quantidade * i.preco_unitario) as "Faturamento" from loja l
+inner join pedido pp on pp.id_loja = l.id_loja
+inner join item_pedido i on i.id_pedido = pp.id_pedido
+inner join produto p on p.id_produto = i.id_produto
+inner join categoria c on c.id_categoria = p.id_categoria
+group by l.nome,l.id_loja,c.id_categoria,c.nome
+having sum(i.quantidade * i.preco_unitario) >= 500
+order by l.nome, sum(i.quantidade * i.preco_unitario) desc;
+
+/*28 Identifique os clientes que fizeram compras em 2026 e cujo total gasto no conjunto desses pedidos seja superior a R$ 300,00. 
+Exiba cliente e total gasto, do maior para o menor valor.*/
+select c.nome as "Cliente", sum(i.quantidade * i.preco_unitario) as "Total" from cliente c
+inner join pedido p on p.id_cliente = c.id_cliente
+inner join item_pedido i on i.id_pedido = p.id_pedido
+where p.data_pedido between '2026-01-01' and '2026-12-31'
+group by c.nome, c.id_cliente
+having sum(i.quantidade * i.preco_unitario) >= 300
+order by sum(i.quantidade * i.preco_unitario) desc;
+
+/*29 A direção quer escolher categorias para uma campanha regional. Crie uma consulta que apresente, para cada categoria, a quantidade total vendida e 
+o faturamento total. Mostre somente categorias com mais de 120 unidades vendidas e faturamento superior a R$ 2.500,00. Ordene pelo faturamento decrescente.*/
+select c.nome as "Categoria", sum(i.quantidade) as "Quantidade", sum(i.quantidade * i.preco_unitario) as "Faturamento" from categoria c
+inner join produto p on p.id_categoria = c.id_categoria
+inner join item_pedido i on i.id_produto = p.id_produto
+group by c.nome, c.id_categoria
+having sum(i.quantidade) >= 120 and 
+sum(i.quantidade * i.preco_unitario) >=2500
+order by sum(i.quantidade * i.preco_unitario) desc;
+
+/*30 A área comercial deseja encontrar clientes relevantes e ativos. Liste os clientes que tenham comprado mais de 12 unidades de produtos no total e 
+gasto mais de R$ 400,00. Exiba nome, cidade, quantidade total comprada e valor total gasto*/
+select c.nome as "Cliente", c.cidade as "Cidade", sum(i.quantidade) as "Quantidade", sum(i.quantidade * i.preco_unitario) as "Total gasto" from cliente c
+inner join pedido p on p.id_cliente  = c.id_cliente
+inner join item_pedido i on i.id_pedido = p.id_pedido
+group by c.nome, c.id_cliente
+having sum(i.quantidade)>= 12 and
+sum(i.quantidade * i.preco_unitario) >= 400;
+
+/*31 A gerência quer comparar unidades sem sair do conteúdo estudado. Mostre, para cada loja, a quantidade de pedidos, a quantidade total de unidades vendidas e 
+o faturamento. Exiba somente lojas com faturamento superior a R$ 5.000,00 e ordene da maior para a menor receita.*/
+select l.nome as "Loja",sum(p.id_pedido) as "Pedidos", sum(i.quantidade) as "Unidades", sum(i.quantidade * i.preco_unitario) as "Faturamento" from loja l
+inner join pedido p on p.id_loja = l.id_loja
+inner join item_pedido i on i.id_pedido = p.id_pedido
+group by l.nome, l.id_loja
+having sum(i.quantidade * i.preco_unitario) >= 5000
+order by sum(i.quantidade * i.preco_unitario) desc;
