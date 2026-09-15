@@ -460,3 +460,13 @@ delimiter ;
 select * from produto;
 update produto set preco = 10.00 where id_produto=21;
 select * from log_preco;
+
+select * from produto where id_produto = 1;
+
+#Transação (transaction)
+start transaction; #Inicia uma transação (Rodar essa linha primeiro, para começar a transação)
+update produto set estoque = estoque - 2 where id_produto = 1;
+insert into pedido (id_cliente,data_pedido) values (1,'2026-06-06');
+commit; #finaliza a transação 
+rollback; #faz as transações feitas serem canceladas
+
