@@ -23,6 +23,26 @@ public class CadastroUsuario extends javax.swing.JFrame {
         initComponents();
     }
     Usuario usu = new Usuario();
+    
+    public void consultar(){
+    ResultSet tabela;
+    tabela = null;
+    
+    tabela = usu.listarUsuario();
+    DefaultTableModel modelo = (DefaultTableModel) tblUsuario.getModel();
+    modelo.setNumRows(0);
+    try
+    {
+        do{
+            modelo.addRow(new String[]{tabela.getString(2), tabela.getString(3), tabela.getString(4), tabela.getString(5)});
+        }
+     while(tabela.next());
+    }catch(SQLException erro)
+            {
+            JOptionPane.showMessageDialog(null, "Erro ao preencher tabela"+ erro) ;    
+             }
+    }
+        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -256,34 +276,23 @@ public class CadastroUsuario extends javax.swing.JFrame {
         usu.setNome(txtNome.getText());
         usu.setEmail(txtEmail.getText());
         usu.setLogin(txtLogin.getText());
-        usu.setSenha(txtSenha.getSenha);
-       
-         
-    ResultSet tabela;
-    tabela = null;
-    
-    tabela = usu.listarUsuario();
-    DefaultTableModel modelo = (DefaultTableModel) tblUsuario.getModel();
-    modelo.setNumRows(0);
-    try
-    {
-        do{
-            modelo.addRow(new String[]{tabela.getString(2), tabela.getString(3), tabela.getString(4), tabela.getString(5)});
-        }
-     while(tabela.next());
-    }catch(SQLException erro)
-            {
-            JOptionPane.showMessageDialog(null, "Erro ao preencher tabela"+ erro) ;    
-             }
+        usu.setSenha(txtSenha.getText());
+        usu.cadastrar();
+        consultar();
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // TODO add your handling code here:
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtLogin.setText("");
+        txtSenha.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**

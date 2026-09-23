@@ -5,6 +5,7 @@
 package Model;
 
 import Control.Conexao;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -60,11 +61,11 @@ public class Usuario {
         
     }
     
-    public ResultSet ListarUsuario(){
+    public ResultSet listarUsuario(){
         ResultSet tabela;
         tabela = null;
         
-        String sql = "Select * from cliente";
+        String sql = "Select * from usuario";
         tabela = con.RetornarResultset(sql);
         return tabela;
         

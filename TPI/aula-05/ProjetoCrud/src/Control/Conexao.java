@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package Control;
 
@@ -11,21 +12,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author fatec-dsm2
  */
 public class Conexao {
-    
+     
     final private String driver = "com.mysql.jdbc.Driver";
    
-    final private String url= "jdbc:mysql://127.0.0.1/bancojava";
+    final private String url= "jdbc:mysql://127.0.0.1/bancotpi";
     
     final private String usuario="root";
     final private String senha="";
     private Connection conexao;// objeto que faz conexao com o banco
-    public Statement statement;// objeto que abre caminho até o banco
+    public Statement statement;// objeto que abre caminho até o banco, cria a autoestrada.
     public ResultSet resultset;// objeto que armazena os comandos sql   
     
     public boolean conecta() {  
@@ -86,5 +86,4 @@ public class Conexao {
          }
          return resultSet;
  }
-    
 }

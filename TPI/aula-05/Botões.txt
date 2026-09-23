@@ -1,0 +1,30 @@
+Cadastrar:
+ 	usu.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        usu.setLogin(txtLogin.getText());
+        usu.setSenha(txtSenha.getText());
+        usu.setTelefone(txtTelefone.getText());
+        usu.cadastrar();
+        consultar();
+
+
+Alterar:
+        usu.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        usu.setLogin(txtLogin.getText());
+        usu.setSenha(txtSenha.getText());
+        usu.setTelefone(txtTelefone.getText());
+        usu.Alterar();
+        consultar();
+
+Excluir:
+        usu.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        usu.excluir();
+        consultar();
+
+Limpar:
+        txtLogin.setText("");
+        txtCodigo.setText("");
+        txtTelefone.setText("");
+        txtSenha.setText("");
+
+Sair:
+        System.exit(0);
