@@ -81,7 +81,7 @@ public class Paciente {
     
     public void cadastrar(){
         String sql = "insert into paciente(codigo,nome,endereco,complemento,rg,cpf,data_nasc) values "+
-               "(" + getCodigo()+",'"+getNome()+"','"+getEndereco()+"','"+getComplemento()+"',"+getRg()+"','"+getCpf()+"','"+this.getData()+"')";
+               "(" + this.getCodigo()+",'"+this.getNome()+"','"+this.getEndereco()+"','"+this.getComplemento()+"','"+this.getRg()+"','"+this.getCpf()+"','"+this.getData()+"')";
         con.executeSQL(sql);
         JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !!!");
     }
