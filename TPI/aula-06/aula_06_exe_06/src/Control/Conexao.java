@@ -4,6 +4,7 @@
  */
 package Control;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,13 +14,13 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author fatec-dsm2
+ * @author satio daniel
  */
 public class Conexao {
     
      final private String driver = "com.mysql.jdbc.Driver";
    
-    final private String url= "jdbc:mysql://127.0.0.1/bancojava";
+    final private String url= "jdbc:mysql://127.0.0.1/aula_06_1";
     
     final private String usuario="root";
     final private String senha="";
