@@ -42,3 +42,18 @@ telefone varchar(18)
 
 insert into usuario(codigo,login,senha,telefone) values
 (1,'sdf1234','1234','(13)9966-6867');
+
+create table passagem(
+id int primary key auto_increment,
+codigo int,
+nome varchar(50),
+telefone varchar(15),
+rg varchar(15),
+destino varchar(50),
+data varchar(10),
+horario varchar(10),
+poltrona varchar(5)
+);
+
+insert into passagem(codigo,nome,telefone,rg,destino,data,horario,poltrona) values
+(1,'Satio Daniel','(99)99999-9999','99.999.999-99','Japão','23/12/2026','15:30',123);
