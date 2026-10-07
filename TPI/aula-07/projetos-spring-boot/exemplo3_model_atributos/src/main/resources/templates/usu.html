@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil Usuário</title>
+
+  <style>
+    body{font-font: sans serif; text-align: center; margin-top: 50px;}
+    .msg{border: 1px solid #ddd; padding: 20px; display: inline-block; border-radius: 8px;}
+  </style>
+</head>
+<body>
+<h1>Dados Usuário</h1>
+<p th:text="${login}" class="msg"> Texto padrão caso não carregue a mensagem</p>
+<p th:text="${senha}" class="msg"></p>
+<p>Telefone: <strong th:text="${telefone}"></strong></p>
+</body>
+</html>
