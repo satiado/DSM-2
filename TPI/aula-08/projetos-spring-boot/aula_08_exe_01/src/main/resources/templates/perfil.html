@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil do Funcionário</title>
+    <style>
+        body{font-family: Verdana; text-align: center; border: cadetblue 1px solid; border-radius: 10px}
+
+    </style>
+</head>
+<body>
+    <p>Nomde do Funcionário é <strong th:text="${nome_funcionario}"></strong>, Cargo: <strong th:text="cargo_funcionario"></strong>, Experiência: <strong th:text="${experiencia}"></strong> anos de experiência.</p>
+</body>
+</html>
