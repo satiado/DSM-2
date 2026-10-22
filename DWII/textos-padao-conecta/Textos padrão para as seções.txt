@@ -1,0 +1,11 @@
+Metodologia
+
+A seção de Metodologia ainda está em desenvolvimento. Nesta parte, serão descritos os métodos e procedimentos adotados pelo grupo para alcançar os objetivos propostos, incluindo as etapas de planejamento, as ferramentas utilizadas, as técnicas de coleta e análise de dados, entre outros aspectos relevantes. O conteúdo definitivo será construído com base nas decisões metodológicas tomadas ao longo do projeto, em alinhamento com a natureza do problema investigado e os fundamentos teóricos que o sustentam.
+
+Resultados
+
+Esta seção será dedicada à apresentação e análise dos resultados obtidos a partir da aplicação da metodologia escolhida. No momento, encontra-se em fase de construção. A versão final incluirá dados organizados em tabelas, gráficos ou outras formas de representação, acompanhados de interpretações fundamentadas. O conteúdo será desenvolvido assim que forem concluídas as etapas práticas do projeto, permitindo a coleta e sistematização das informações relevantes.
+
+Conclusão
+
+A Conclusão será elaborada após a finalização das etapas de desenvolvimento e análise dos resultados. Este espaço será utilizado para apresentar as principais reflexões e aprendizados do grupo, destacando a relevância do trabalho, suas contribuições e possíveis desdobramentos. Como o projeto ainda está em andamento, esta seção permanece em aberto e será preenchida com base nas evidências e interpretações construídas ao longo do processo investigativo.
