@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkin no Evento</title>
+    <style>
+        .formulario { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        .resultado { background: #e7f3fe; padding: 15px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h2>Checkin no Evento</h2>
+
+<form th:action="@{/salvar-evento}" method="post">
+    <div class="formulario">
+        <label>Data do Evento: </label>
+        <input type="date" name="data" required placeholder="Digite a data: Ex.: **/**/****" />
+    </div>
+
+    <div class="formulario">
+        <label>Tipo do ingresso: </label>
+            <select name="ingresso">
+                <option value="Vip">Vip</option>
+                <option value="Pista">Pista</option>
+                <option value="Camarote">Camarote</option>
+            </select>
+    </div>
+
+    <div class="formulario">
+            <label>Quantidade de Pessoas: </label>
+            <input type="number" name="qtdPessoas" placeholder="Digite a quantidade de pessoas" />
+    </div>
+
+    <div class="formulario">
+        <label>Meia Entrada?</label>
+        <select name="" id=""></select>
+
+    </div>
+
+    <div class="formulario">
+        <label>Categoria:</label>
+        <select name="categoria">
+            <option value=" ">          </option>
+            <option value=" ">          </option>
+            <option value=" ">          </option>
+        </select>
+    </div>
+
+    <button type="submit">               </button>
+</form>
+
+<div th:if="${      }" class="resultado">
+    <h3>                         </h3>
+    <p><strong>          </strong> <span th:text="${   }"></span></p>
+    <p><strong>          </strong> R$ <span th:text="${   }"></span></p>
+    <p><strong>          </strong> <span th:text="${    }"></span></p>
+</div>
+
+</body>
+</html>
