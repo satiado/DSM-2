@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Cadastro de Peças</title>
+    <style>
+        .formulario { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        .resultado { background: #e7f3fe; padding: 15px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h2>Catálogo</h2>
+
+<form th:action="@{/pecas}" method="post">
+    <div class="formulario">
+        <label>Nome da peça:</label>
+        <input type="text" name="nome" required placeholder="Insira o nome da peça" />
+    </div>
+
+    <div class="formulario">
+        <label>Amperagem:</label>
+        <input type="double" step="0.1" name="amperagem" required />
+    </div>
+
+    <div class="formulario">
+        <label>Categoria:</label>
+        <input type="text" name="categoria" required placeholder="Insira a categoria da peça" />
+    </div>
+
+    <div class="formulario">
+        <label>Quantidade Estoque:</label>
+        <input type="int" name="quantidade" required placeholder="Insira a quantidade estoque" />
+    </div>
+
+    <div class="formulario">
+        <label>Voltagem:</label>
+        <select name="voltagem">
+            <option value=""></option>
+            <option value="110">110</option>
+            <option value="220">220</option>
+        </select>
+    </div>
+
+    <button type="submit">Cadastrar</button>
+</form>
+
+<div th:if="${sucesso}" class="resultado">
+    <h3>Cadastro Realizado com Sucesso</h3>
+    <p><strong>Nome da peça:</strong> <span th:text="${n}"></span></p>
+    <p><strong>Amperagem:</strong> <span th:text="${a}"></span></p>
+    <p><strong>Categoria:</strong> <span th:text="${c}"></span></p>
+    <p><strong>Quantidade Estoque:</strong> <span th:text="${q}"></span></p>
+    <p><strong>Voltagem:</strong> <span th:text="${v}"></span></p>
+</div>
+
+</body>
+</html>
