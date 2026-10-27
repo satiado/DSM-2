@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Cadastro de Peças</title>
+  <style>
+    .formulario { margin-bottom: 15px; }
+    label { display: block; font-weight: bold; }
+    .resultado { background: #e7f3fe; padding: 15px; border-radius: 5px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>Cadastro de Hospedes </h2>
+
+<form th:action="@{/home}" method="post">
+  <div class="formulario">
+    <label>Nome da peça:</label>
+    <input type="text" name="nome" required placeholder="Insira o nome do Hóspede" />
+  </div>
+
+  <div class="formulario">
+    <label>Checkin:</label>
+    <input type="date" name="checkin" required />
+  </div>
+
+  <div class="formulario">
+    <label>Checkout:</label>
+    <input type="date" name="checkout" required />
+  </div>
+
+  <div class="formulario">
+    <label>Tipo de quarto:</label>
+    <select name="quarto">
+      <option value=""></option>
+      <option value="standard">Standard</option>
+      <option value="luxo">Luxo</option>
+      <option value="suite">Suite</option>
+    </select>
+  </div>
+
+  <div class="formulario">
+    <label>Quantidade de Hóspedes:</label>
+    <input type="int" name="qtdHospede" required placeholder="Insira a quantidade de Hóspedes" />
+  </div>
+
+  <div class="formulario">
+    <label>Café da manhã:</label>
+    <select name="cafeManha">
+      <option value=""></option>
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+    </select>
+  </div>
+
+  <div class="formulario">
+    <label>Estacionamento:</label>
+    <select name="estacionamento">
+      <option value=""></option>
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+    </select>
+  </div>
+
+  <div class="formulario">
+    <label>Forma de Pagamento:</label>
+    <select name="pagamento">
+      <option value=""></option>
+      <option value="pix">Pix</option>
+      <option value="cartao">Cartão</option>
+      <option value="dinheiro">Dinheiro</option>
+    </select>
+  </div>
+
+  <div class="formulario">
+    <label>Valor da Diária:</label>
+    <select name="diaria">
+      <option value=""></option>
+      <option value="180">$180,00</option>
+      <option value="240">$240,00</option>
+      <option value="440">$440,00</option>
+    </select>
+  </div>
+
+  <button type="submit">Cadastrar</button>
+</form>
+
+<div th:if="${sucesso}" class="resultado">
+  <h3>Hotel Satiado</h3>
+  <p><strong>Nome do Hóspede:</strong> <span th:text="${nome}"></span></p>
+  <p><strong>Checkin:</strong> <span th:text="${checkin}"></span></p>
+  <p><strong>Checkout:</strong> <span th:text="${checkout}"></span></p>
+  <p><strong>Tipo de Quarto:</strong> <span th:text="${quarto}"></span></p>
+  <p><strong>Quantidade de Hóspedes:</strong> <span th:text="${qtdHospede}"></span></p>
+  <p><strong>Café da Manhã:</strong> <span th:text="${cafeManha}"></span></p>
+  <p><strong>Estacionamento:</strong> <span th:text="${estacionamento}"></span></p>
+  <p><strong>Forma de Pagamento:</strong> <span th:text="${pagamento}"></span></p>
+  <p><strong>Valor Diária:</strong> <span th:text="${diaria}"></span></p>
+  <h3>Cadastro Realizado com sucesso!</h3>
+</div>
+
+</body>
+</html>

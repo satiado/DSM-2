@@ -1,10 +1,10 @@
-package com.example.atv2.springboot;
+package br.com.spring.ATV2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class Atv2ApplicationTests {
 
 	@Test
 	void contextLoads() {
