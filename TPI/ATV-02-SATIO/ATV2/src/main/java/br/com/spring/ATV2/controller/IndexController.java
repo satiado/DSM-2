@@ -19,7 +19,7 @@ public class IndexController {
         @RequestParam ("checkin") String checkin,
         @RequestParam ("checkout") String checkout,
         @RequestParam ("quarto") String quarto,
-        @RequestParam ("qtdHospede") String qtdHospede,
+        @RequestParam ("qtdHospede") int qtdHospede,
         @RequestParam ("cafeManha") String cafeManha,
         @RequestParam ("estacionamento") String estacionamento,
         @RequestParam ("pagamento") String pagamento,

@@ -1,4 +1,9 @@
 package br.com.spring.projetoBdH2.repository;
 
-public interface ProdutoRepository {
+import br.com.spring.projetoBdH2.model.Produto;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProdutoRepository extends JpaRepository<Produto,Integer> {
+
+
 }
