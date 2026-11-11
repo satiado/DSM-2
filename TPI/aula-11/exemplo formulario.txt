@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>                     </title>
+    <style>
+        .formulario { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        .resultado { background: #e7f3fe; padding: 15px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h2>                     </h2>
+
+<form th:action="@{/}" method="post">
+    <div class="formulario">
+        <label></label>
+        <input type="    " name="     " required placeholder="" />
+    </div>
+
+    <div class="formulario">
+        <label></label>
+        <input type="    " step="0.01" name="" required />
+    </div>
+
+    <div class="formulario">
+        <label>Categoria:</label>
+        <select name="categoria">
+            <option value=" ">          </option>
+            <option value=" ">          </option>
+            <option value=" ">          </option>
+        </select>
+    </div>
+
+    <button type="submit">               </button>
+</form>
+
+<div th:if="${      }" class="resultado">
+    <h3>                         </h3>
+    <p><strong>          </strong> <span th:text="${   }"></span></p>
+    <p><strong>          </strong> R$ <span th:text="${   }"></span></p>
+    <p><strong>          </strong> <span th:text="${    }"></span></p>
+</div>
+
+</body>
+</html>

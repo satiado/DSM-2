@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Funcionários</title>
+  <style>
+    .formulario { margin-bottom: 15px; }
+    label { display: block; font-weight: bold; }
+    .resultado { background: #e7f3fe; padding: 15px; border-radius: 5px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>Cadastrar Funcionário</h2>
+
+<form th:action="@{/salvar}" method="post">
+  <div class="formulario">
+    <label>Nome funcionário</label>
+    <input type="text" name="nome" required placeholder="Nome Funcionário" />
+  </div>
+
+  <div class="formulario">
+    <label>Data Nascimento</label>
+    <input type="date" name="datanasc" />
+  </div>
+
+  <div class="formulario">
+    <label>Idade</label>
+    <input type="number" step="0.01" name="idade" required />
+  </div>
+
+  <div class="formulario">
+    <label>Altura</label>
+    <input type="number" step="0.01" name="altura" required />
+  </div>
+
+  <div class="formulario">
+    <label>Cargo:</label>
+    <select name="cargo">
+      <option value="Pedreiro">Pedreiro</option>
+      <option value="Aux. Limpeza "> Aux Limpeza </option>
+      <option value=" Professor"> Professor</option>
+    </select>
+  </div>
+
+  <button type="submit">Cadastrar</button>
+</form>
+
+<div th:if="${sucesso}" class="resultado">
+  <h3>Funcionário cadastrado com sucesso</h3>
+  <p><strong>Funcionário: </strong> <span th:text="${n}"></span></p>
+  <p><strong>Idade: </strong> <span th:text="${i}"></span></p>
+  <p><strong>Altura: </strong> <span th:text="${a}"></span></p>
+  <p><strong>Cargo: </strong> <span th:text="${c}"></span></p>
+  <p><strong>DataNasc: </strong> <span th:text="${d}"></span></p>
+
+
+</div>
+
+</body>
+</html>
